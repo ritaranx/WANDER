@@ -35,7 +35,7 @@ We have uploaded the dense retrieval after pretraining at [this link](https://dr
 # Training Procedures
 ## Step 1: Retrieving Initial Documesnts
 ```
-python faiss_knn.py --dataset=wos --model=${DR_model} --gpuid=2 --round=0 --type=train --target=wos --N=$N --prompt_id=0
+python dense_retrieval.py --dataset=wos --model=${DR_model} --gpuid=2 --round=0 --type=train --target=wos --N=$N --prompt_id=0
 ```
 
 ## Step 2: Classifier Training
@@ -61,7 +61,7 @@ glo=1
 for ((i=0;i<${ROUNDS};++i)); do 
 echo "Dataset ${TARGET}, DR Model: ${DR_model}, Round${i}, local ${loc}, global ${glo}"
 python keyword_expansion.py --dr_model=${DR_model} --topN=$N --round=$i --target=${TARGET} --loc=${loc} --glo=${glo}
-python faiss_knn.py --dataset=${TARGET} --model=${DR_model} --gpuid=0 --round=$(($i+1)) --type=train --N=$N --prompt_id=0  --loc=${loc} --glo=${glo}
+python dense_retrieval.py --dataset=${TARGET} --model=${DR_model} --gpuid=0 --round=$(($i+1)) --type=train --N=$N --prompt_id=0  --loc=${loc} --glo=${glo}
 done 
 ```
 
